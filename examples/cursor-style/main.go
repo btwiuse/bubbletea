@@ -5,6 +5,7 @@ import (
 	"os"
 
 	tea "charm.land/bubbletea/v2"
+	boba "github.com/btwiuse/boba"
 )
 
 type model struct {
@@ -71,7 +72,7 @@ func (m model) describeCursor() string {
 }
 
 func main() {
-	p := tea.NewProgram(model{blink: true})
+	p := boba.NewProgram(model{blink: true})
 	if _, err := p.Run(); err != nil {
 		fmt.Fprintf(os.Stderr, "Error: %v", err)
 		os.Exit(1)

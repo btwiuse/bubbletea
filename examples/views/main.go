@@ -14,6 +14,7 @@ import (
 	"time"
 
 	tea "charm.land/bubbletea/v2"
+	boba "github.com/btwiuse/boba"
 	"charm.land/lipgloss/v2"
 	"github.com/fogleman/ease"
 	"github.com/lucasb-eyer/go-colorful"
@@ -42,7 +43,7 @@ var (
 
 func main() {
 	initialModel := model{0, false, 10, 0, 0, false, false}
-	p := tea.NewProgram(initialModel)
+	p := boba.NewProgram(initialModel)
 	if _, err := p.Run(); err != nil {
 		fmt.Println("could not start program:", err)
 	}

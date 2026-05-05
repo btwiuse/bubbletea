@@ -6,6 +6,7 @@ import (
 	"os"
 
 	tea "charm.land/bubbletea/v2"
+	boba "github.com/btwiuse/boba"
 	"charm.land/lipgloss/v2"
 	"charm.land/lipgloss/v2/table"
 )
@@ -156,7 +157,7 @@ func main() {
 		}).
 		Border(lipgloss.ThickBorder())
 
-	if _, err := tea.NewProgram(model{t}).Run(); err != nil {
+	if _, err := boba.NewProgram(model{t}).Run(); err != nil {
 		fmt.Println("Error running program:", err)
 		os.Exit(1)
 	}

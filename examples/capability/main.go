@@ -6,6 +6,7 @@ import (
 
 	"charm.land/bubbles/v2/textinput"
 	tea "charm.land/bubbletea/v2"
+	boba "github.com/btwiuse/boba"
 	"charm.land/lipgloss/v2"
 )
 
@@ -62,7 +63,7 @@ func main() {
 	m.input.Placeholder = "Enter capability name to request"
 	m.input.Focus()
 
-	if _, err := tea.NewProgram(m).Run(); err != nil {
+	if _, err := boba.NewProgram(m).Run(); err != nil {
 		fmt.Fprintln(os.Stderr, "Uh oh:", err)
 		os.Exit(1)
 	}

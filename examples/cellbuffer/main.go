@@ -11,6 +11,7 @@ import (
 	"time"
 
 	tea "charm.land/bubbletea/v2"
+	boba "github.com/btwiuse/boba"
 	"github.com/charmbracelet/harmonica"
 )
 
@@ -196,7 +197,7 @@ func main() {
 		spring: harmonica.NewSpring(harmonica.FPS(fps), frequency, damping),
 	}
 
-	p := tea.NewProgram(m)
+	p := boba.NewProgram(m)
 	if _, err := p.Run(); err != nil {
 		fmt.Fprintln(os.Stderr, "Uh oh:", err)
 		os.Exit(1)

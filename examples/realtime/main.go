@@ -11,6 +11,7 @@ import (
 
 	"charm.land/bubbles/v2/spinner"
 	tea "charm.land/bubbletea/v2"
+	boba "github.com/btwiuse/boba"
 )
 
 // A message used to indicate that activity has occurred. In the real world (for
@@ -78,7 +79,7 @@ func (m model) View() tea.View {
 }
 
 func main() {
-	p := tea.NewProgram(model{
+	p := boba.NewProgram(model{
 		sub:     make(chan struct{}),
 		spinner: spinner.New(),
 	})

@@ -6,6 +6,7 @@ import (
 
 	"charm.land/bubbles/v2/viewport"
 	tea "charm.land/bubbletea/v2"
+	boba "github.com/btwiuse/boba"
 	"charm.land/glamour/v2"
 	"charm.land/glamour/v2/styles"
 	"charm.land/lipgloss/v2"
@@ -141,7 +142,7 @@ func main() {
 		os.Exit(1)
 	}
 
-	if _, err := tea.NewProgram(model).Run(); err != nil {
+	if _, err := boba.NewProgram(model).Run(); err != nil {
 		fmt.Println("Bummer, there's been an error:", err)
 		os.Exit(1)
 	}

@@ -7,6 +7,7 @@ import (
 	"time"
 
 	tea "charm.land/bubbletea/v2"
+	boba "github.com/btwiuse/boba"
 	"charm.land/lipgloss/v2"
 )
 
@@ -126,7 +127,7 @@ func initialModel() model {
 }
 
 func main() {
-	p := tea.NewProgram(initialModel())
+	p := boba.NewProgram(initialModel())
 	if _, err := p.Run(); err != nil {
 		fmt.Printf("Error running program: %v", err)
 	}

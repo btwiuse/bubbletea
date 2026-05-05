@@ -10,6 +10,7 @@ import (
 	"charm.land/bubbles/v2/key"
 	"charm.land/bubbles/v2/textarea"
 	tea "charm.land/bubbletea/v2"
+	boba "github.com/btwiuse/boba"
 	"charm.land/lipgloss/v2"
 )
 
@@ -20,7 +21,7 @@ var (
 )
 
 func main() {
-	p := tea.NewProgram(initialModel(), tea.WithFilter(filter))
+	p := boba.NewProgram(initialModel(), tea.WithFilter(filter))
 
 	if _, err := p.Run(); err != nil {
 		log.Fatal(err)

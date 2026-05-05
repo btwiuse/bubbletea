@@ -7,6 +7,7 @@ import (
 
 	"charm.land/bubbles/v2/textinput"
 	tea "charm.land/bubbletea/v2"
+	boba "github.com/btwiuse/boba"
 	"charm.land/lipgloss/v2"
 	"github.com/lucasb-eyer/go-colorful"
 )
@@ -190,7 +191,7 @@ func main() {
 	ti.CharLimit = 156
 	ti.SetWidth(20)
 	ti.SetVirtualCursor(false)
-	p := tea.NewProgram(model{
+	p := boba.NewProgram(model{
 		ti: ti,
 	})
 

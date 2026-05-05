@@ -11,6 +11,7 @@ import (
 
 	"charm.land/bubbles/v2/viewport"
 	tea "charm.land/bubbletea/v2"
+	boba "github.com/btwiuse/boba"
 	"charm.land/lipgloss/v2"
 )
 
@@ -123,7 +124,7 @@ func main() {
 		os.Exit(1)
 	}
 
-	p := tea.NewProgram(
+	p := boba.NewProgram(
 		model{content: string(content)},
 	)
 

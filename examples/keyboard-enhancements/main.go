@@ -9,6 +9,7 @@ import (
 	"strings"
 
 	tea "charm.land/bubbletea/v2"
+	boba "github.com/btwiuse/boba"
 	"charm.land/lipgloss/v2"
 )
 
@@ -101,7 +102,7 @@ func initialModel() model {
 }
 
 func main() {
-	p := tea.NewProgram(initialModel())
+	p := boba.NewProgram(initialModel())
 	if _, err := p.Run(); err != nil {
 		fmt.Fprintf(os.Stderr, "Urgh: %v\n", err)
 		os.Exit(1)

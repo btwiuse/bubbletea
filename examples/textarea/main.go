@@ -9,11 +9,12 @@ import (
 
 	"charm.land/bubbles/v2/textarea"
 	tea "charm.land/bubbletea/v2"
+	boba "github.com/btwiuse/boba"
 	"charm.land/lipgloss/v2"
 )
 
 func main() {
-	p := tea.NewProgram(initialModel())
+	p := boba.NewProgram(initialModel())
 
 	if _, err := p.Run(); err != nil {
 		log.Fatal(err)

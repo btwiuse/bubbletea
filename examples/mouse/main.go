@@ -7,10 +7,11 @@ import (
 	"log"
 
 	tea "charm.land/bubbletea/v2"
+	boba "github.com/btwiuse/boba"
 )
 
 func main() {
-	p := tea.NewProgram(model{})
+	p := boba.NewProgram(model{})
 	if _, err := p.Run(); err != nil {
 		log.Fatal(err)
 	}

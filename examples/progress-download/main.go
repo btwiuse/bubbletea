@@ -10,10 +10,10 @@ import (
 	"path/filepath"
 
 	"charm.land/bubbles/v2/progress"
-	tea "charm.land/bubbletea/v2"
+	boba "github.com/btwiuse/boba"
 )
 
-var p *tea.Program
+var p *boba.Program
 
 type progressWriter struct {
 	total      int
@@ -95,7 +95,7 @@ func main() {
 		progress: progress.New(progress.WithDefaultBlend()),
 	}
 	// Start Bubble Tea
-	p = tea.NewProgram(m)
+	p = boba.NewProgram(m)
 
 	// Start the download
 	go pw.Start()

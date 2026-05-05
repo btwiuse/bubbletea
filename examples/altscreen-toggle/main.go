@@ -5,6 +5,7 @@ import (
 	"os"
 
 	tea "charm.land/bubbletea/v2"
+	boba "github.com/btwiuse/boba"
 	"charm.land/lipgloss/v2"
 )
 
@@ -77,7 +78,7 @@ func (m model) View() tea.View {
 }
 
 func main() {
-	if _, err := tea.NewProgram(model{}).Run(); err != nil {
+	if _, err := boba.NewProgram(model{}).Run(); err != nil {
 		fmt.Println("Error running program:", err)
 		os.Exit(1)
 	}

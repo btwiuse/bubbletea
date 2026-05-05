@@ -9,6 +9,7 @@ import (
 	"time"
 
 	tea "charm.land/bubbletea/v2"
+	boba "github.com/btwiuse/boba"
 )
 
 const url = "https://charm.sh/"
@@ -25,7 +26,7 @@ type errMsg struct{ error }
 func (e errMsg) Error() string { return e.error.Error() }
 
 func main() {
-	p := tea.NewProgram(model{})
+	p := boba.NewProgram(model{})
 	if _, err := p.Run(); err != nil {
 		log.Fatal(err)
 	}

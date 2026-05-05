@@ -8,6 +8,7 @@ import (
 	"charm.land/bubbles/v2/key"
 	"charm.land/bubbles/v2/textarea"
 	tea "charm.land/bubbletea/v2"
+	boba "github.com/btwiuse/boba"
 	"charm.land/lipgloss/v2"
 )
 
@@ -228,7 +229,7 @@ func (m model) Cursor() *tea.Cursor {
 }
 
 func main() {
-	if _, err := tea.NewProgram(newModel()).Run(); err != nil {
+	if _, err := boba.NewProgram(newModel()).Run(); err != nil {
 		fmt.Println("Error while running program:", err)
 		os.Exit(1)
 	}

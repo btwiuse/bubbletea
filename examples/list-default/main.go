@@ -6,6 +6,7 @@ import (
 
 	"charm.land/bubbles/v2/list"
 	tea "charm.land/bubbletea/v2"
+	boba "github.com/btwiuse/boba"
 	"charm.land/lipgloss/v2"
 )
 
@@ -79,7 +80,7 @@ func main() {
 	m := model{list: list.New(items, list.NewDefaultDelegate(), 0, 0)}
 	m.list.Title = "My Fave Things"
 
-	p := tea.NewProgram(m)
+	p := boba.NewProgram(m)
 
 	if _, err := p.Run(); err != nil {
 		fmt.Println("Error running program:", err)

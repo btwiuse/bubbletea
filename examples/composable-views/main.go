@@ -9,6 +9,7 @@ import (
 	"charm.land/bubbles/v2/spinner"
 	"charm.land/bubbles/v2/timer"
 	tea "charm.land/bubbletea/v2"
+	boba "github.com/btwiuse/boba"
 	"charm.land/lipgloss/v2"
 )
 
@@ -155,7 +156,7 @@ func (m *mainModel) resetSpinner() {
 }
 
 func main() {
-	p := tea.NewProgram(newModel(defaultTime))
+	p := boba.NewProgram(newModel(defaultTime))
 
 	if _, err := p.Run(); err != nil {
 		log.Fatal(err)

@@ -9,6 +9,7 @@ import (
 	"charm.land/bubbles/v2/key"
 	"charm.land/bubbles/v2/stopwatch"
 	tea "charm.land/bubbletea/v2"
+	boba "github.com/btwiuse/boba"
 )
 
 type model struct {
@@ -96,7 +97,7 @@ func main() {
 
 	m.keymap.start.SetEnabled(false)
 
-	if _, err := tea.NewProgram(m).Run(); err != nil {
+	if _, err := boba.NewProgram(m).Run(); err != nil {
 		fmt.Println("Oh no, it didn't work:", err)
 		os.Exit(1)
 	}
