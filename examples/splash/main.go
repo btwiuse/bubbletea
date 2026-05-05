@@ -8,6 +8,7 @@ import (
 	"time"
 
 	tea "charm.land/bubbletea/v2"
+	boba "github.com/btwiuse/boba"
 	"charm.land/lipgloss/v2"
 )
 
@@ -168,7 +169,7 @@ func tick() tea.Msg {
 }
 
 func main() {
-	p := tea.NewProgram(
+	p := boba.NewProgram(
 		model{rate: 90},
 	)
 

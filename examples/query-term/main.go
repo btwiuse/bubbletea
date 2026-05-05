@@ -13,6 +13,7 @@ import (
 
 	"charm.land/bubbles/v2/textinput"
 	tea "charm.land/bubbletea/v2"
+	boba "github.com/btwiuse/boba"
 )
 
 func newModel() model {
@@ -95,7 +96,7 @@ func (m model) View() tea.View {
 }
 
 func main() {
-	p := tea.NewProgram(newModel())
+	p := boba.NewProgram(newModel())
 	if _, err := p.Run(); err != nil {
 		log.Fatal(err)
 	}

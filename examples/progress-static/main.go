@@ -24,6 +24,7 @@ import (
 
 	"charm.land/bubbles/v2/progress"
 	tea "charm.land/bubbletea/v2"
+	boba "github.com/btwiuse/boba"
 	"charm.land/lipgloss/v2"
 )
 
@@ -41,7 +42,7 @@ var (
 func main() {
 	prog := progress.New(progress.WithScaled(true), progress.WithColors(pink, yellow))
 
-	if _, err := tea.NewProgram(model{progress: prog}).Run(); err != nil {
+	if _, err := boba.NewProgram(model{progress: prog}).Run(); err != nil {
 		fmt.Println("Oh no!", err)
 		os.Exit(1)
 	}

@@ -9,6 +9,7 @@ import (
 	"time"
 
 	tea "charm.land/bubbletea/v2"
+	boba "github.com/btwiuse/boba"
 )
 
 func main() {
@@ -22,7 +23,7 @@ func main() {
 	}
 
 	// Initialize our program
-	p := tea.NewProgram(model(5))
+	p := boba.NewProgram(model(5))
 	if _, err := p.Run(); err != nil {
 		log.Fatal(err)
 	}

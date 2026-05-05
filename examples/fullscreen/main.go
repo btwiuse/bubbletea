@@ -9,6 +9,7 @@ import (
 	"time"
 
 	tea "charm.land/bubbletea/v2"
+	boba "github.com/btwiuse/boba"
 )
 
 type model int
@@ -16,7 +17,7 @@ type model int
 type tickMsg time.Time
 
 func main() {
-	p := tea.NewProgram(model(5))
+	p := boba.NewProgram(model(5))
 	if _, err := p.Run(); err != nil {
 		log.Fatal(err)
 	}

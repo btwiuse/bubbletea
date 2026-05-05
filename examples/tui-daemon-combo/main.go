@@ -11,6 +11,7 @@ import (
 
 	"charm.land/bubbles/v2/spinner"
 	tea "charm.land/bubbletea/v2"
+	boba "github.com/btwiuse/boba"
 	"charm.land/lipgloss/v2"
 	"github.com/charmbracelet/x/term"
 )
@@ -44,7 +45,7 @@ func main() {
 		log.SetOutput(io.Discard)
 	}
 
-	p := tea.NewProgram(newModel(), opts...)
+	p := boba.NewProgram(newModel(), opts...)
 	if _, err := p.Run(); err != nil {
 		fmt.Println("Error starting Bubble Tea program:", err)
 		os.Exit(1)

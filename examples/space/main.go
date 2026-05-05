@@ -9,6 +9,7 @@ import (
 	"time"
 
 	tea "charm.land/bubbletea/v2"
+	boba "github.com/btwiuse/boba"
 	"charm.land/lipgloss/v2"
 )
 
@@ -124,7 +125,7 @@ func (m model) View() tea.View {
 }
 
 func main() {
-	p := tea.NewProgram(model{}, tea.WithFPS(120))
+	p := boba.NewProgram(model{}, tea.WithFPS(120))
 
 	_, err := p.Run()
 	if err != nil {

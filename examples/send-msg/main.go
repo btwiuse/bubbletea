@@ -12,6 +12,7 @@ import (
 
 	"charm.land/bubbles/v2/spinner"
 	tea "charm.land/bubbletea/v2"
+	boba "github.com/btwiuse/boba"
 	"charm.land/lipgloss/v2"
 )
 
@@ -102,7 +103,7 @@ func (m model) View() tea.View {
 }
 
 func main() {
-	p := tea.NewProgram(newModel())
+	p := boba.NewProgram(newModel())
 
 	// Simulate activity
 	go func() {

@@ -10,6 +10,7 @@ import (
 	"charm.land/bubbles/v2/progress"
 	"charm.land/bubbles/v2/spinner"
 	tea "charm.land/bubbletea/v2"
+	boba "github.com/btwiuse/boba"
 	"charm.land/lipgloss/v2"
 )
 
@@ -124,7 +125,7 @@ func downloadAndInstall(pkg string) tea.Cmd {
 }
 
 func main() {
-	if _, err := tea.NewProgram(newModel()).Run(); err != nil {
+	if _, err := boba.NewProgram(newModel()).Run(); err != nil {
 		fmt.Println("Error running program:", err)
 		os.Exit(1)
 	}

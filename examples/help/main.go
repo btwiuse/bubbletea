@@ -8,6 +8,7 @@ import (
 	"charm.land/bubbles/v2/help"
 	"charm.land/bubbles/v2/key"
 	tea "charm.land/bubbletea/v2"
+	boba "github.com/btwiuse/boba"
 	"charm.land/lipgloss/v2"
 )
 
@@ -140,7 +141,7 @@ func main() {
 		defer f.Close() // nolint:errcheck
 	}
 
-	if _, err := tea.NewProgram(newModel()).Run(); err != nil {
+	if _, err := boba.NewProgram(newModel()).Run(); err != nil {
 		fmt.Printf("Could not start program :(\n%v\n", err)
 		os.Exit(1)
 	}

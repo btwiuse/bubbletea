@@ -9,6 +9,7 @@ import (
 	"strings"
 
 	tea "charm.land/bubbletea/v2"
+	boba "github.com/btwiuse/boba"
 )
 
 var choices = []string{"Taro", "Coffee", "Lychee"}
@@ -70,7 +71,7 @@ func (m model) View() tea.View {
 }
 
 func main() {
-	p := tea.NewProgram(model{})
+	p := boba.NewProgram(model{})
 
 	// Run returns the model as a tea.Model.
 	m, err := p.Run()

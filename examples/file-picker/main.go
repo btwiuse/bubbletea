@@ -9,6 +9,7 @@ import (
 
 	"charm.land/bubbles/v2/filepicker"
 	tea "charm.land/bubbletea/v2"
+	boba "github.com/btwiuse/boba"
 )
 
 type model struct {
@@ -88,7 +89,7 @@ func main() {
 	fp.CurrentDirectory, _ = os.UserHomeDir()
 
 	m := model{filepicker: fp}
-	tm, _ := tea.NewProgram(m).Run()
+	tm, _ := boba.NewProgram(m).Run()
 	mm := tm.(model)
 	fmt.Println("\n  You selected: " + m.filepicker.Styles.Selected.Render(mm.selectedFile) + "\n")
 }
