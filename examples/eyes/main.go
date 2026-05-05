@@ -92,9 +92,11 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		}
 
 	case tea.WindowSizeMsg:
-		m.width = msg.Width
-		m.height = msg.Height
-		m.updateEyePositions()
+		if msg.Width * msg.Height != 0 {
+			m.width = msg.Width
+			m.height = msg.Height
+			m.updateEyePositions()
+		}
 
 	case tickMsg:
 		currentTime := time.Now()
