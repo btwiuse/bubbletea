@@ -125,7 +125,7 @@ func (m model) View() tea.View {
 }
 
 func main() {
-	p := boba.NewProgram(model{}, tea.WithFPS(120))
+	p := boba.NewProgram(model{}, tea.WithFPS(60))
 
 	_, err := p.Run()
 	if err != nil {
