@@ -43,12 +43,9 @@ func (m model) Init() tea.Cmd {
 }
 
 func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
-	switch msg := msg.(type) {
+	switch msg.(type) {
 	case tea.KeyPressMsg:
 		return m, tea.Quit
-	case tea.WindowSizeMsg:
-		m.width = msg.Width
-		m.height = msg.Height
 	case tickMsg:
 		return m, tickCmd()
 	}
@@ -58,11 +55,6 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 func (m model) View() tea.View {
 	var v tea.View
 	v.AltScreen = true
-	if m.width == 0 {
-		v.SetContent("Initializing...")
-		return v
-	}
-
 	v.SetContent(m.gradient())
 	return v
 }
@@ -172,7 +164,7 @@ func tickCmd() tea.Cmd {
 
 func main() {
 	p := boba.NewProgram(
-		model{rate: 90},
+		model{rate: 90, width: 80, height: 24},
 	)
 
 	if _, err := p.Run(); err != nil {

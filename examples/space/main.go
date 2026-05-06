@@ -20,8 +20,6 @@ import (
 
 type model struct {
 	colors     [][]color.Color
-	lastWidth  int
-	lastHeight int
 	frameCount int
 	width      int
 	height     int
@@ -47,15 +45,6 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		switch msg.String() {
 		case "q", "ctrl+c":
 			return m, tea.Quit
-		}
-
-	case tea.WindowSizeMsg:
-		m.width = msg.Width
-		m.height = msg.Height
-		if m.width != m.lastWidth || m.height != m.lastHeight {
-			m.setupColors()
-			m.lastWidth = m.width
-			m.lastHeight = m.height
 		}
 
 	case tickMsg:
@@ -125,7 +114,9 @@ func (m model) View() tea.View {
 }
 
 func main() {
-	p := boba.NewProgram(model{}, tea.WithFPS(60))
+	m := model{width: 80, height: 24}
+	m.setupColors()
+	p := boba.NewProgram(m, tea.WithFPS(60))
 
 	_, err := p.Run()
 	if err != nil {
