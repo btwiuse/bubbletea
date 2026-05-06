@@ -21,6 +21,14 @@ function waitForBridge() {
 function initTerminal() {
   const term = new Terminal({ convertEol: true, cursorBlink: true });
   const fitAddon = new FitAddon.FitAddon();
+  if (new URLSearchParams(location.search).get("webgl") !== null) {
+    const webglAddon = new WebglAddon.WebglAddon();
+    try {
+      term.loadAddon(webglAddon);
+    } catch (e) {
+      console.warn("WebGL addon failed to load, falling back to canvas renderer", e);
+    }
+  }
   term.loadAddon(fitAddon);
   term.open(document.getElementById("terminal-container"));
 
