@@ -39,7 +39,7 @@ type model struct {
 }
 
 func (m model) Init() tea.Cmd {
-	return tick
+	return tickCmd()
 }
 
 func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
@@ -50,7 +50,7 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		m.width = msg.Width
 		m.height = msg.Height
 	case tickMsg:
-		return m, tick
+		return m, tickCmd()
 	}
 	return m, nil
 }
@@ -164,8 +164,10 @@ func interpolateColors(color1, color2 color.Color, t float64) color.Color {
 
 type tickMsg time.Time
 
-func tick() tea.Msg {
-	return tickMsg(time.Now())
+func tickCmd() tea.Cmd {
+	return tea.Tick(time.Second/60, func(t time.Time) tea.Msg {
+		return tickMsg(t)
+	})
 }
 
 func main() {
