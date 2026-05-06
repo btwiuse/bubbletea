@@ -13,7 +13,6 @@ import (
 	tea "charm.land/bubbletea/v2"
 	boba "github.com/btwiuse/boba"
 	"charm.land/lipgloss/v2"
-	"github.com/charmbracelet/x/term"
 )
 
 var (
@@ -37,7 +36,7 @@ func main() {
 	}
 
 	opts := []tea.ProgramOption{}
-	if daemonMode || !term.IsTerminal(os.Stdout.Fd()) {
+	if daemonMode {
 		// If we're in daemon mode don't render the TUI
 		opts = append(opts, tea.WithoutRenderer())
 	} else {
