@@ -7,7 +7,6 @@ import (
 	"log"
 	"net/http"
 	"os"
-	"path/filepath"
 
 	"charm.land/bubbles/v2/progress"
 	boba "github.com/btwiuse/boba"
@@ -18,14 +17,13 @@ var p *boba.Program
 type progressWriter struct {
 	total      int
 	downloaded int
-	file       *os.File
 	reader     io.Reader
 	onProgress func(float64)
 }
 
 func (pw *progressWriter) Start() {
 	// TeeReader calls pw.Write() each time a new response is received
-	_, err := io.Copy(pw.file, io.TeeReader(pw.reader, pw))
+	_, err := io.Copy(io.Discard, io.TeeReader(pw.reader, pw))
 	if err != nil {
 		p.Send(progressErrMsg{err})
 	}
@@ -50,8 +48,10 @@ func getResponse(url string) (*http.Response, error) {
 	return resp, nil
 }
 
+var DEFAULT_URL = "https://no-cors.deno.dev/https://download.blender.org/demo/color_vortex.blend"
+
 func main() {
-	url := flag.String("url", "", "url for the file to download")
+	url := flag.String("url", DEFAULT_URL, "url for the file to download")
 	flag.Parse()
 
 	if *url == "" {
@@ -73,17 +73,8 @@ func main() {
 		os.Exit(1)
 	}
 
-	filename := filepath.Base(*url)
-	file, err := os.Create(filename)
-	if err != nil {
-		fmt.Println("could not create file:", err)
-		os.Exit(1)
-	}
-	defer file.Close() // nolint:errcheck
-
 	pw := &progressWriter{
 		total:  int(resp.ContentLength),
-		file:   file,
 		reader: resp.Body,
 		onProgress: func(ratio float64) {
 			p.Send(progressMsg(ratio))
