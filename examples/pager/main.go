@@ -4,6 +4,7 @@ package main
 // component library.
 
 import (
+	_ "embed"
 	"fmt"
 	"os"
 	"regexp"
@@ -116,13 +117,11 @@ func (m model) footerView() string {
 	return lipgloss.JoinHorizontal(lipgloss.Center, line, info)
 }
 
+//go:embed artichoke.md
+var artichokeContent string
+
 func main() {
-	// Load some text for our viewport
-	content, err := os.ReadFile("artichoke.md")
-	if err != nil {
-		fmt.Println("could not load file:", err)
-		os.Exit(1)
-	}
+	content := artichokeContent
 
 	p := boba.NewProgram(
 		model{content: string(content)},
