@@ -18,10 +18,13 @@ import (
 	"charm.land/lipgloss/v2"
 )
 
+var WASM_TEXT = `os.Stdin.Stat() panics in js/wasm. Skip piping and use a demo string.`
+
 func main() {
 	stat, err := os.Stdin.Stat()
 	if err != nil {
-		panic(err)
+		start(strings.NewReader(WASM_TEXT))
+		return
 	}
 
 	if stat.Mode()&os.ModeNamedPipe == 0 && stat.Size() == 0 {
@@ -29,7 +32,11 @@ func main() {
 		os.Exit(1)
 	}
 
-	reader := bufio.NewReader(os.Stdin)
+	start(os.Stdin)
+}
+
+func start(r io.Reader) {
+	reader := bufio.NewReader(r)
 	var b strings.Builder
 
 	for {
