@@ -1,0 +1,148 @@
+package tui
+
+import (
+	"fmt"
+	"math"
+	"strings"
+	"time"
+
+	tea "charm.land/bubbletea/v2"
+	"charm.land/lipgloss/v2"
+	"examples/typewriter/internal/game"
+	"examples/typewriter/internal/theme"
+)
+
+func (m model) handleResults(msg tea.KeyPressMsg) (tea.Model, tea.Cmd) {
+	if time.Since(m.finishedAt) < 500*time.Millisecond {
+		return m, nil
+	}
+
+	switch msg.String() {
+	case "e":
+		if len(m.game.ErrorWords()) > 0 {
+			m.showingErrors = !m.showingErrors
+			return m, nil
+		}
+	case "tab":
+		m.duration = nextDur(m.duration)
+		m.save()
+	case "ctrl+t":
+		theme.Next()
+		m.save()
+	case "esc":
+		if m.showingErrors {
+			m.showingErrors = false
+			return m, nil
+		}
+	}
+
+	if m.showingErrors {
+		m.showingErrors = false
+		return m, nil
+	}
+
+	m.game = game.New(m.duration, m.mode, m.lang, m.difficulty)
+	m.showingErrors = false
+	m.active = screenTyping
+	return m, nil
+}
+
+func getSassyLine(wpm float64) string {
+	switch {
+	case wpm < 30:
+		return "you type like my grandma... and she's dead."
+	case wpm < 50:
+		return "are you using just your index fingers?"
+	case wpm < 70:
+		return "not bad, but keep it off your resume."
+	case wpm < 90:
+		return "fast enough to look busy when the boss walks by."
+	case wpm < 120:
+		return "calm down turbo, leave some keys for the rest of us."
+	default:
+		return "what kind of gaming chair do you have?!"
+	}
+}
+
+func (m model) viewResults(p theme.Palette) string {
+	if m.showingErrors {
+		return m.viewErrors(p)
+	}
+
+	dim := lipgloss.NewStyle().Foreground(p.Foreground)
+	val := lipgloss.NewStyle().Foreground(p.Typed)
+	hi := lipgloss.NewStyle().Foreground(p.Accent).Bold(true)
+	errStyle := lipgloss.NewStyle().Foreground(p.Error)
+	italic := lipgloss.NewStyle().Foreground(p.Foreground).Italic(true)
+
+	r := m.result
+
+	timeStr := fmt.Sprintf("%ds", m.duration)
+	if m.duration == 0 {
+		if r.WPM > 0 {
+			elapsed := float64(r.Chars) / 5.0 / r.WPM * 60.0
+			timeStr = fmt.Sprintf("%ds", int(math.Round(elapsed)))
+		} else {
+			timeStr = "0s"
+		}
+	}
+
+	errStr := val.Render("0")
+	if r.Mistakes > 0 {
+		errStr = errStyle.Render(fmt.Sprintf("%d", r.Mistakes))
+	}
+
+	cw := 10
+	statBlock := func(label, value string) string {
+		return lipgloss.NewStyle().Width(cw).Align(lipgloss.Center).Render(
+			lipgloss.JoinVertical(lipgloss.Center, dim.Render(label), value),
+		)
+	}
+
+	stats := lipgloss.JoinHorizontal(lipgloss.Top,
+		statBlock("wpm", hi.Render(fmt.Sprintf("%.0f", r.WPM))),
+		statBlock("acc", val.Render(fmt.Sprintf("%.0f%%", r.Accuracy))),
+		statBlock("raw", val.Render(fmt.Sprintf("%.0f", r.Raw))),
+		statBlock("typos", errStr),
+		statBlock("time", val.Render(timeStr)),
+	)
+
+	var out []string
+	out = append(out, "", stats, "", "")
+
+	sassy := getSassyLine(r.WPM)
+	if sassy != "" {
+		out = append(out, italic.Render(sassy), "")
+	}
+
+	if m.gotNewPB {
+		pb := lipgloss.NewStyle().Foreground(p.Success).Render(fmt.Sprintf("new pb  %.0f → %.0f", m.pb, r.WPM))
+		out = append(out, pb)
+	} else if m.pb > 0 {
+		out = append(out, dim.Render(fmt.Sprintf("pb %.0f", m.pb)))
+	}
+
+	return lipgloss.JoinVertical(lipgloss.Center, out...)
+}
+
+func (m model) viewErrors(p theme.Palette) string {
+	hi := lipgloss.NewStyle().Foreground(p.Accent)
+	errStyle := lipgloss.NewStyle().Foreground(p.Error)
+
+	errWords := m.game.ErrorWords()
+
+	var out []string
+	out = append(out, hi.Render("words to practice"))
+	out = append(out, "")
+
+	for i := 0; i < len(errWords); i += 5 {
+		end := i + 5
+		if end > len(errWords) {
+			end = len(errWords)
+		}
+		row := errStyle.Render(strings.Join(errWords[i:end], "  "))
+		out = append(out, row)
+	}
+
+	return lipgloss.JoinVertical(lipgloss.Center, out...)
+}
