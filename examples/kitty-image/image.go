@@ -2,8 +2,9 @@ package main
 
 import (
 	"bytes"
-	"fmt"
 	_ "embed"
+	"fmt"
+	"image"
 	_ "image/gif"
 	_ "image/jpeg"
 	_ "image/png"
@@ -14,6 +15,12 @@ import (
 
 //go:embed example.png
 var examplePNG []byte
+
+func Image() image.Image {
+	img, _, _ := image.Decode(bytes.NewReader(examplePNG))
+	return img
+
+}
 
 func Render() string {
 	img, err := RenderImage(bytes.NewReader(examplePNG))
