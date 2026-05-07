@@ -19,14 +19,23 @@ function waitForBridge() {
 }
 
 function initTerminal() {
-  const term = new Terminal({ convertEol: true, cursorBlink: true });
+  const term = new Terminal({
+    convertEol: true,
+    cursorBlink: true,
+    allowTransparency: true,
+  });
+  const imageAddon = new ImageAddon.ImageAddon();
+  term.loadAddon(imageAddon);
   const fitAddon = new FitAddon.FitAddon();
   if (new URLSearchParams(location.search).get("webgl") !== null) {
     const webglAddon = new WebglAddon.WebglAddon();
     try {
       term.loadAddon(webglAddon);
     } catch (e) {
-      console.warn("WebGL addon failed to load, falling back to canvas renderer", e);
+      console.warn(
+        "WebGL addon failed to load, falling back to canvas renderer",
+        e,
+      );
     }
   }
   term.loadAddon(fitAddon);
@@ -66,15 +75,22 @@ function initTerminal() {
     bubbletea_write(data);
   });
 
-  return { term, pollInterval, setExited: (v) => { exited = v; } };
+  return {
+    term,
+    pollInterval,
+    setExited: (v) => {
+      exited = v;
+    },
+  };
 }
 
 async function main() {
   const go = new Go();
-  const wasmPath = new URLSearchParams(location.search).get("wasm") || "./booba.wasm";
+  const wasmPath = new URLSearchParams(location.search).get("wasm") ||
+    "./booba.wasm";
   const result = await WebAssembly.instantiateStreaming(
     fetch(wasmPath),
-    go.importObject
+    go.importObject,
   );
 
   // Start the WASM module (non-blocking); Go registers the bridge globals as it runs
