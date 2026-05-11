@@ -5,6 +5,7 @@ import (
 	"image/color"
 	"math/rand"
 	"os"
+	"runtime"
 	"strings"
 	"time"
 
@@ -97,6 +98,7 @@ func clamp(value, min, max float64) float64 {
 }
 
 func (m model) View() tea.View {
+	runtime.Gosched()
 	// Title
 	title := lipgloss.NewStyle().Bold(true).Render("Space")
 

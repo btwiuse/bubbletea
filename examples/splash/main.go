@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"image/color"
 	"math"
+	"runtime"
 	"strings"
 	"time"
 
@@ -68,6 +69,7 @@ func (m model) View() tea.View {
 }
 
 func (m model) gradient() string {
+	runtime.Gosched()
 	// Time-based angle for animation
 	t := float64(time.Now().UnixNano()*m.rate) / float64(time.Second)
 	angleRadians := -t * math.Pi / 180.0
