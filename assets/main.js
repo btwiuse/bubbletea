@@ -1,5 +1,59 @@
 const loading = document.getElementById("loading");
 
+/**
+ * Extract Go WASM environment variables from URL query parameters.
+ *
+ * Query parameters prefixed with `env.` are mapped into a plain object
+ * suitable for assigning to `go.env` before `go.run(instance)`.
+ *
+ * Example:
+ *
+ *   URL:
+ *     ?env.TERM=xterm-256color&env.DEBUG=1
+ *
+ *   Result:
+ *     {
+ *       TERM: "xterm-256color",
+ *       DEBUG: "1",
+ *     }
+ *
+ * Usage:
+ *
+ *   const go = new Go()
+ *   go.env = extractGoEnv()
+ *
+ * Supported format:
+ *
+ *   ?env.KEY=value
+ *
+ * Notes:
+ *
+ * - Keys must match `/^[A-Z0-9_]+$/i`
+ * - Values are automatically URL-decoded by URLSearchParams
+ * - Non-`env.*` parameters are ignored
+ */
+function extractGoEnv(search = window.location.search) {
+  const params = new URLSearchParams(search);
+  const env = {};
+
+  for (const [key, value] of params.entries()) {
+    if (!key.startsWith("env.")) {
+      continue;
+    }
+
+    const envKey = key.slice(4);
+
+    // optional validation
+    if (!/^[A-Z0-9_]+$/i.test(envKey)) {
+      continue;
+    }
+
+    env[envKey] = value;
+  }
+
+  return env;
+}
+
 function waitForBridge() {
   return new Promise((resolve) => {
     function check() {
@@ -86,6 +140,9 @@ function initTerminal() {
 
 async function main() {
   const go = new Go();
+  go.env = {
+    ...extractGoEnv(),
+  };
   const wasmPath = new URLSearchParams(location.search).get("wasm") ||
     "./booba.wasm";
   const result = await WebAssembly.instantiateStreaming(
